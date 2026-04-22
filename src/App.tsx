@@ -77,14 +77,14 @@ const THEMES: Record<ThemeId, ThemeConfig> = {
   dreamMachine: {
     id: 'dreamMachine',
     name: 'Dream Machine',
-    bg: '#141414',
+    bg: '#121212',
     ink: '#00ff41',
     accent: '#00ff41',
-    accentSecondary: '#222222',
+    accentSecondary: '#1a1a1a',
     glow: 'rgba(0, 255, 65, 0.4)',
     fontSans: 'Inter',
-    fontMono: 'JetBrains Mono',
-    fontDisplay: 'Inter',
+    fontMono: 'Orbitron',
+    fontDisplay: 'Orbitron',
     borderWidth: '0px',
     glassOpacity: 0,
     rounded: false
@@ -190,16 +190,29 @@ export default function App() {
   return (
     <div className="h-screen pattern-bg flex flex-col font-sans relative overflow-hidden transition-all duration-500">
       
-      {/* Sony Clock Specific Background Texture */}
-      {themeId === 'dreamMachine' && <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '4px 4px' }} />}
+      {/* Sony Clock Specific Background Texture (Hardware Body) */}
+      {themeId === 'dreamMachine' && (
+        <>
+          <div className="absolute inset-0 opacity-[0.08] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, #222 1px, transparent 1px)', backgroundSize: '2px 2px' }} />
+          {/* Top Edge / Snooze Bar Area */}
+          <div className="absolute top-0 left-0 right-0 h-12 bg-[#1a1a1a] border-b-2 border-black flex items-center justify-center">
+            <div className="w-1/2 h-8 bg-[#252525] rounded-sm border border-black shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] flex items-center justify-center">
+              <span className="text-[9px] font-bold text-white/40 uppercase tracking-[0.4em]">Dream Machine // Snooze / Sleep</span>
+            </div>
+          </div>
+          {/* Speaker Grille Patterns at sides */}
+          <div className="absolute top-1/2 left-4 -translate-y-1/2 w-12 h-64 opacity-20 hidden md:block" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '6px 6px' }} />
+          <div className="absolute top-1/2 right-4 -translate-y-1/2 w-12 h-64 opacity-20 hidden md:block" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '6px 6px' }} />
+        </>
+      )}
 
       {/* Navigation Header */}
-      <header className="p-4 md:p-8 flex justify-between items-center relative z-20 shrink-0">
+      <header className={`p-4 md:p-8 flex justify-between items-center relative z-20 shrink-0 ${themeId === 'dreamMachine' ? 'mt-12' : ''}`}>
         <div className="flex gap-4 items-center">
           {themeId === 'dreamMachine' ? (
             <div className="flex flex-col">
-              <span className="text-[var(--accent)] font-bold text-2xl tracking-tighter italic">SNOY</span>
-              <span className="text-[10px] text-[var(--accent)] opacity-50 font-bold tracking-widest -mt-1 uppercase">Dream Station</span>
+              <span className="text-[var(--accent)] font-bold text-2xl tracking-tighter italic font-tech uppercase">SONY</span>
+              <span className="text-[10px] text-[var(--accent)] opacity-40 font-bold tracking-[0.3em] -mt-1 uppercase">Dream Machine ICF-C218</span>
             </div>
           ) : (
             <div className="px-3 py-1 bg-[var(--accent)] text-[var(--bg)] font-bold text-sm md:text-lg">MOD: {themeId.toUpperCase()}</div>
@@ -268,12 +281,12 @@ export default function App() {
               exit={{ opacity: 0, y: -30 }}
               className="flex flex-col items-center w-full"
             >
-              <div className={`relative px-12 py-8 transition-all ${themeId === 'dreamMachine' ? 'bg-[#000] border-4 border-[#222] shadow-[inset_0_0_20px_rgba(0,0,0,1)]' : ''}`}>
-                 {themeId === 'dreamMachine' && <div className="absolute top-2 left-2 text-[8px] font-bold text-[var(--accent)] opacity-40 uppercase">Quartz Crystal</div>}
+              <div className={`relative px-8 md:px-12 py-6 md:py-8 transition-all ${themeId === 'dreamMachine' ? 'bg-[#000] border-4 border-[#1a1a1a] shadow-[inset_0_0_40px_rgba(0,0,0,1)] rounded-md' : ''}`}>
+                 {themeId === 'dreamMachine' && <div className="absolute top-2 left-4 text-[7px] font-bold text-[var(--accent)] opacity-40 uppercase tracking-widest font-tech">Dual Alarm / Quartz</div>}
                  
-                 <div className="text-[min(25vw,180px)] md:text-[240px] font-bold font-mono leading-none tracking-tight time-glow-dynamic flex items-baseline select-none">
-                  {timeData.hStr}<span className="animate-pulse">{themeId === 'dreamMachine' ? '.' : ':'}</span>{timeData.mStr}
-                  {!is24Hour && <span className={`text-xl md:text-3xl ml-4 opacity-40 font-sans tracking-widest ${themeId === 'dreamMachine' ? 'text-[var(--accent)]' : ''}`}>{timeData.ampm}</span>}
+                 <div className={`text-[min(25vw,180px)] md:text-[240px] font-bold leading-none tracking-tight time-glow-dynamic flex items-baseline select-none ${themeId === 'dreamMachine' ? 'font-tech italic' : 'font-mono'}`}>
+                  {timeData.hStr}<span className="animate-pulse opacity-80">{themeId === 'dreamMachine' ? '.' : ':'}</span>{timeData.mStr}
+                  {!is24Hour && <span className={`text-xl md:text-3xl ml-4 opacity-40 font-tech tracking-widest ${themeId === 'dreamMachine' ? 'text-[var(--accent)]' : ''}`}>{timeData.ampm}</span>}
                 </div>
 
                 {showSeconds && themeId !== 'dreamMachine' && (
