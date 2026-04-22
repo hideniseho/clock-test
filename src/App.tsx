@@ -259,15 +259,23 @@ export default function App() {
               exit={{ opacity: 0, scale: 1.1 }}
               className={`relative aspect-square w-full max-w-[min(70vh,450px)] bg-[var(--bg)] dynamic-border shadow-2xl flex items-center justify-center ${theme.rounded ? 'rounded-full' : ''}`}
             >
-              {showNumbers && [12, 3, 6, 9].map((num) => (
-                <div key={num} className="absolute text-xl md:text-4xl font-bold font-mono opacity-20" style={{
-                  top: num === 12 ? '12%' : num === 6 ? '88%' : '50%',
-                  left: num === 9 ? '12%' : num === 3 ? '88%' : '50%',
-                  transform: 'translate(-50%, -50%)'
-                }}>
-                  {num}
-                </div>
-              ))}
+              {showNumbers && [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((num) => {
+                const angle = (num * 30) * (Math.PI / 180);
+                const radius = 38; // Radius in percentage
+                return (
+                  <div 
+                    key={num} 
+                    className="absolute text-lg md:text-3xl font-bold font-mono opacity-20" 
+                    style={{
+                      top: `${50 - Math.cos(angle) * radius}%`,
+                      left: `${50 + Math.sin(angle) * radius}%`,
+                      transform: 'translate(-50%, -50%)'
+                    }}
+                  >
+                    {num}
+                  </div>
+                );
+              })}
               <Hand rotation={timeData.hDeg} length="28%" width="max(4px, min(10px, 1.5vw))" color="var(--ink)" />
               <Hand rotation={timeData.mDeg} length="40%" width="max(3px, min(6px, 1vw))" color="var(--ink)" />
               {showSeconds && <Hand rotation={timeData.sDeg} length="46%" width="max(1px, min(2px, 0.5vw))" color="var(--accent)" />}
